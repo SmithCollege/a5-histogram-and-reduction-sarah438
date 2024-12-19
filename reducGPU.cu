@@ -153,6 +153,7 @@ int main() {
         // free mem
         cudaFree(input);
         cudaFree(output);
+        cudaFree(histo);
         //free(output);
 
         double t1 = get_clock();
