@@ -104,7 +104,7 @@ __global__ void reducSum(int * input, int * output){
 
 }
 
-__global__ void histo_kernal(unsigned char *buffer, long size, unsigned int *histo){
+__global__ void histo_kernal(unsigned int *input, int size, unsigned int *histo){
         int i = threadIdx.x + blockIdx.x*blockDim.x;
 
         // stride is the total number of threads
@@ -112,7 +112,7 @@ __global__ void histo_kernal(unsigned char *buffer, long size, unsigned int *his
 
         // All threads in the grid collectively handle blockDim.x*gridDim.x consecutive elements
         while (i<size){
-                atomicAdd(&(histo[buffer[i]]),1);
+                atomicAdd(&(histo[input[i]]),1);
                 i+=stride;
         }
 }
@@ -120,10 +120,12 @@ __global__ void histo_kernal(unsigned char *buffer, long size, unsigned int *his
 int main() {
         double t0 = get_clock();
 
-                int * input;
-                int * output;
+        int * input;
+        int * output;
+        int * histo;
         // allocate memory
         cudaMallocManaged(&input,sizeof(int)*BLOCK_SIZE);
+        cudaMallocManaged(&output, sizeof(int)*BLOCK_SIZE);
         cudaMallocManaged(&output, sizeof(int)*BLOCK_SIZE);
         //int* input = malloc(sizeof(int) * SIZE);
         //int* output = malloc(sizeof(int) * SIZE);
@@ -148,6 +150,7 @@ int main() {
         // free mem
         cudaFree(input);
         cudaFree(output);
+        cudaFree(histo);
         //free(output);
 
         double t1 = get_clock();
