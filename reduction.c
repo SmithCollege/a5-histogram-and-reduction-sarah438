@@ -50,6 +50,26 @@ int mult(int*input, int size){
         return p;
 }
 
+void histogram(int *input, int size) {
+        int bins = 10;
+
+    // Initialize the histogram to zero
+    int * hist;
+    for (int i = 0; i < bins; i++) {
+        hist[i] = 0;
+    }
+
+    for (int i = 0; i < size; i++) {
+        int value = input[i];
+
+        // Ensure value is within the valid range of bins
+        if (value >= 0 && value < bins) {
+            hist[value]++;
+        }
+    }
+}
+
+
 int main() {
         double t0 = get_clock();
 
