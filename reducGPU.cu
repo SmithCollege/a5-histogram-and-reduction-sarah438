@@ -105,7 +105,7 @@ __global__ void reducSum(int * input, int * output){
 
 }
 
-__global__ void histo_kernal(unsigned int *input, long size, unsigned int *histo){
+__global__ void histo_kernal(unsigned int *input, int size, unsigned int *histo){
  int i = threadIdx.x + blockIdx.x*blockDim.x;
 
 
@@ -124,9 +124,12 @@ int main() {
 
   int * input;
   int * output;
+  int * histo;
+
         // allocate memory
         cudaMallocManaged(&input,sizeof(int)*BLOCK_SIZE);
         cudaMallocManaged(&output, sizeof(int)*BLOCK_SIZE);
+        cudaMallocManaged(&histo, sizeof(int)*BLOCK_SIZE);
         //int* input = malloc(sizeof(int) * SIZE);
         //int* output = malloc(sizeof(int) * SIZE);
 
