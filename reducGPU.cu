@@ -113,7 +113,7 @@ __global__ void histo_kernal(unsigned char *buffer, long size, unsigned int *his
 
         // All threads in the grid collectively handle blockDim.x*gridDim.x consecutive elements
         while (i<size){
-                atomaticAdd(&(histo[buffer[i]]),1);
+                atomicAdd(&(histo[buffer[i]]),1);
                 i+=stride;
         }
 }
