@@ -105,6 +105,18 @@ __global__ void reducSum(int * input, int * output){
 
 }
 
+__global__ void histo_kernal(unsigned char *buffer, long size, unsigned int *histo){
+        int i = threadIdx.x + blockIdx.x*blockDim.x;
+
+        // stride is the total number of threads
+        int stride = blockDim.x * gridDim.x;
+
+        // All threads in the grid collectively handle blockDim.x*gridDim.x consecutive elements
+        while (i<size){
+                atomaticAdd(&(histo[buffer[i]]),1);
+                i+=stride;
+        }
+}
 
 int main() {
         double t0 = get_clock();
